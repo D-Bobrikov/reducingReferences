@@ -18,11 +18,12 @@ class LinksController extends Controller
     {
         $alphabet = 'abcdefghijklmnopqrstuvwxyz';
         $lastLink = Link::orderby('id', 'desc')->first();
+        $response = response('OK', 200);
 
         if (!$lastLink) {
             Link::create(['full_reference' => $request->link, 'short_reference' => 'a']);
 
-            return response('OK', 200);
+            return $response;
         }
 
         $posAlphabet = strripos($alphabet, substr($lastLink->short_reference, -1));
@@ -32,13 +33,13 @@ class LinksController extends Controller
             $shortReference = $alphabet[$currentPosition + 1];
             Link::create(['full_reference' => $request->link, 'short_reference' => $shortReference]);
 
-            return response('OK', 200);
+            return $response;
         }
 
         elseif ((strlen($lastLink->short_reference) === 1) && ($currentPosition === 25 )) {
             Link::create(['full_reference' => $request->link, 'short_reference' => 'aa']);
 
-            return response('OK', 200);
+            return $response;
         }
 
         elseif (((strlen($lastLink->short_reference) > 1) && ($currentPosition < 25 ))) {
@@ -46,7 +47,7 @@ class LinksController extends Controller
             $shortReference = substr($lastLink->short_reference, 0, -1) . $shortReference;
             Link::create(['full_reference' => $request->link, 'short_reference' => $shortReference]);
 
-            return response('OK', 200);
+            return $response;
         }
 
         elseif (((strlen($lastLink->short_reference) > 1) && ($currentPosition === 25 ))) {
