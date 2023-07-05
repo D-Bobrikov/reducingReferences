@@ -30,6 +30,7 @@
             <p><a @click="nextPageUrl" href="#" class="link-underline-dark">Вперёд</a></p>
         </div>
         <p>Cтраница: {{ links.current_page }}</p>
+        <p>Всего записей: {{ links.total }}</p>
     </div>
 </template>
 
