@@ -45,8 +45,8 @@ export default {
         fullLink: ''
     }),
 
-    created () {
-        this.getLinks()
+    async created () {
+        await this.getLinks()
     },
 
     methods: {
