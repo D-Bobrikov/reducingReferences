@@ -9,7 +9,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="link in links.data">
+            <tr v-for="link in links.data" :key="link.id">
                 <td><a v-bind:href="link.full_reference">http://{{ link.short_reference }}</a></td>
                 <td>
                     <button @click="deleteLink(link.id)" type="button" class="btn btn-danger">Удалить</button>
@@ -39,62 +39,61 @@
 import axios from 'axios'
 
 export default {
-    data: () => ({
-        links: [],
-        errors: [],
-        fullLink: ''
-    }),
+  data: () => ({
+    links: [],
+    errors: [],
+    fullLink: ''
+  }),
 
-    async created () {
-        await this.getLinks()
+  async created () {
+    await this.getLinks()
+  },
+
+  methods: {
+    getLinks () {
+      axios.get('http://127.0.0.1:8000/api/link')
+        .then(response => {
+          this.links = response.data
+        }).catch(e => {
+          this.errors.push(e)
+        })
     },
 
-    methods: {
-        getLinks () {
-            axios.get('http://127.0.0.1:8000/api/link')
-                .then(response => {
-                    this.links = response.data
-                }).catch(e => {
-                this.errors.push(e)
-            })
-        },
+    postLink (fullLink) {
+      axios.post('http://127.0.0.1:8000/api/link', {
+        link: fullLink
+      })
+        .then(response => {
+        })
+        .catch(e => {
+          this.errors.push(e)
+        })
+      this.getLinks()
+      this.fullLink = ''
+    },
 
-        postLink (fullLink) {
-            axios.post('http://127.0.0.1:8000/api/link', {
-                link: fullLink
-            })
-                .then(response => {
-                })
-                .catch(e => {
-                    this.errors.push(e)
-                })
-            this.getLinks()
-            this.fullLink = ''
-        },
+    nextPageUrl () {
+      axios.get(this.links.next_page_url)
+        .then(response => {
+          this.links = response.data
+        }).catch(e => {
+          this.errors.push(e)
+        })
+    },
 
-        nextPageUrl () {
-            axios.get(this.links.next_page_url)
-                .then(response => {
-                    this.links = response.data
-                }).catch(e => {
-                this.errors.push(e)
-            })
-        },
+    prevPageUrl () {
+      axios.get(this.links.prev_page_url)
+        .then(response => {
+          this.links = response.data
+        }).catch(e => {
+          this.errors.push(e)
+        })
+    },
 
-        prevPageUrl () {
-            axios.get(this.links.prev_page_url)
-                .then(response => {
-                    this.links = response.data
-                }).catch(e => {
-                this.errors.push(e)
-            })
-        },
-
-        deleteLink (id) {
-            axios.delete('http://127.0.0.1:8000/api/link/' + id).then()
-            this.getLinks()
-        }
+    deleteLink (id) {
+      axios.delete('http://127.0.0.1:8000/api/link/' + id).then()
+      this.getLinks()
     }
+  }
 }
 </script>
-
