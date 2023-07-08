@@ -21,12 +21,12 @@ class LinksController extends Controller
         if (!$lastLink) {
             Link::create(['full_reference' => $request->link, 'short_reference' => 'a']);
 
-            return response('OK', 200);
+            return response()->json(['message'=> 'The link is shortened !']);
         } else {
             $lastShortLink = $lastLink['short_reference'];
             Link::create(['full_reference' => $request->link, 'short_reference' => ++$lastShortLink]);
 
-            return response('OK', 200);
+            return response()->json(['message'=> 'The link is shortened !']);
         }
     }
 
@@ -34,6 +34,6 @@ class LinksController extends Controller
     {
         Link::find($id)->delete();
 
-        return response('DELETE', 200);
+        return response()->json(['message'=> 'Link removed !']);
     }
 }
