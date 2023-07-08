@@ -1,7 +1,7 @@
 <template>
     <div class="col-5 container text-center">
         <h1>Сократи свою ссылку</h1>
-        <table class="table">
+        <table v-if="links.total" class="table">
             <thead>
             <tr>
                 <th scope="col">URL</th>
@@ -17,12 +17,13 @@
             </tr>
             </tbody>
         </table>
+        <p v-else>Ещё нет сокращённых ссылок</p>
 
         <form>
             <div class="mb-3">
                 <input class="form-control" placeholder="Введите url ссылки" v-model="fullLink">
             </div>
-            <button type="submit" class="btn btn-primary" @click="postLink(fullLink)">Сократить</button>
+            <button type="submit" :class="addDisabledClass" class="btn btn-primary" @click="postLink(fullLink)">Сократить</button>
         </form>
 
         <div class="d-flex justify-content-evenly">
@@ -47,6 +48,15 @@ export default {
 
   async created () {
     await this.getLinks()
+  },
+
+  computed: {
+    // eslint-disable-next-line vue/return-in-computed-property
+    addDisabledClass () {
+      if (!this.fullLink) {
+        return 'disabled'
+      }
+    }
   },
 
   methods: {
