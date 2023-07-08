@@ -53,8 +53,8 @@ export default {
     }
   },
 
-  async created () {
-    await this.getLinks()
+  created () {
+    this.getLinks()
   },
 
   computed: {
