@@ -26,7 +26,7 @@
             <button type="submit" :class="addDisabledClass" class="btn btn-info" @click="postLink(fullLink)">Сократить</button>
         </form>
 
-        <div class="d-flex justify-content-evenly">
+        <div v-if="links.total > 10 " class="d-flex justify-content-evenly">
             <p><a @click="prevPageUrl" href="#" class="link-underline-dark">Назад</a></p>
             <p><a @click="nextPageUrl" href="#" class="link-underline-dark">Вперёд</a></p>
         </div>
