@@ -1,6 +1,6 @@
 <template>
     <div class="col-5 container text-center">
-        <h1>Сократи свою ссылку</h1>
+        <h1>Сократите свою ссылку</h1>
         <table v-if="links.total" class="table">
             <thead>
             <tr>
@@ -23,7 +23,7 @@
             <div class="mb-3">
                 <input class="form-control" placeholder="Введите url ссылки" v-model="fullLink">
             </div>
-            <button type="submit" :class="addDisabledClass" class="btn btn-primary" @click="postLink(fullLink)">Сократить</button>
+            <button type="submit" :class="addDisabledClass" class="btn btn-info" @click="postLink(fullLink)">Сократить</button>
         </form>
 
         <div class="d-flex justify-content-evenly">
@@ -37,14 +37,21 @@
 
 <script>
 
-import axios from 'axios'
+import { deleteLink, getLinks, postLink, prevPageUrl, nextPageUrl } from '../js/api.js'
 
 export default {
-  data: () => ({
-    links: [],
-    errors: [],
-    fullLink: ''
-  }),
+  data () {
+    return {
+      links: [],
+      errors: [],
+      fullLink: '',
+      deleteLink,
+      getLinks,
+      postLink,
+      prevPageUrl,
+      nextPageUrl
+    }
+  },
 
   async created () {
     await this.getLinks()
@@ -56,53 +63,6 @@ export default {
       if (!this.fullLink) {
         return 'disabled'
       }
-    }
-  },
-
-  methods: {
-    getLinks () {
-      axios.get('http://127.0.0.1:8000/api/link')
-        .then(response => {
-          this.links = response.data
-        }).catch(e => {
-          this.errors.push(e)
-        })
-    },
-
-    postLink (fullLink) {
-      axios.post('http://127.0.0.1:8000/api/link', {
-        link: fullLink
-      })
-        .then(response => {
-        })
-        .catch(e => {
-          this.errors.push(e)
-        })
-      this.getLinks()
-      this.fullLink = ''
-    },
-
-    nextPageUrl () {
-      axios.get(this.links.next_page_url)
-        .then(response => {
-          this.links = response.data
-        }).catch(e => {
-          this.errors.push(e)
-        })
-    },
-
-    prevPageUrl () {
-      axios.get(this.links.prev_page_url)
-        .then(response => {
-          this.links = response.data
-        }).catch(e => {
-          this.errors.push(e)
-        })
-    },
-
-    deleteLink (id) {
-      axios.delete('http://127.0.0.1:8000/api/link/' + id).then()
-      this.getLinks()
     }
   }
 }
