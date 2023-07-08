@@ -1,12 +1,12 @@
 import axios from 'axios'
 
 export async function deleteLink (id) {
-  await axios.delete('http://127.0.0.1:8000/api/link/' + id).then()
+  await axios.delete(import.meta.env.VITE_APP_URL + '/api/link/' + id).then()
   await this.getLinks()
 }
 
 export async function getLinks () {
-  axios.get('http://127.0.0.1:8000/api/link')
+  axios.get(import.meta.env.VITE_APP_URL + '/api/link')
     .then(response => {
       this.links = response.data
     }).catch(e => {
@@ -15,7 +15,7 @@ export async function getLinks () {
 }
 
 export async function postLink (fullLink) {
-  axios.post('http://127.0.0.1:8000/api/link', {
+  axios.post(import.meta.env.VITE_APP_URL + '/api/link', {
     link: fullLink
   })
     .then(response => {
