@@ -19,4 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('/link', LinksController::class);
+Route::get('/link/{lk?}', [LinksController::class, 'index']);
+Route::post('/link', [LinksController::class, 'store']);
+Route::delete('/link/{id}', [LinksController::class, 'destroy']);

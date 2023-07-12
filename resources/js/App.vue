@@ -30,18 +30,16 @@
     </table>
     <p v-else>Ещё нет сокращённых ссылок</p>
 
-    <form>
-      <div class="mb-3">
+    <form class="d-flex justify-content-between mb-3">
         <input
           class="form-control"
           placeholder="Введите url ссылки"
           v-model="fullLink"
         />
-      </div>
       <button
         type="submit"
         :class="addDisabledClass"
-        class="btn btn-info"
+        class="btn btn-info ms-2"
         @click="postLink(fullLink)"
       >
         Сократить
