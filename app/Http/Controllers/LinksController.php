@@ -18,11 +18,11 @@ class LinksController extends Controller
     {
         $lastLink = Link::orderby('id', 'desc')->first();
 
-        if (!$lastLink) {
+        if (! $lastLink) {
             $lastShortLink = 'a';
         } else {
             $lastShortLink = $lastLink['short_reference'];
-            ++$lastShortLink;
+            $lastShortLink++;
         }
 
         Link::create(['full_reference' => $request->link, 'short_reference' => $lastShortLink]);
