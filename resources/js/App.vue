@@ -38,7 +38,7 @@
         />
       <button
         type="submit"
-        :class="addDisabledClass"
+        :class="{disabled: !fullLink}"
         class="btn btn-info ms-2"
         @click="postLink(fullLink)"
       >
@@ -84,15 +84,6 @@ export default {
 
   created () {
     this.getLinks()
-  },
-
-  computed: {
-    // eslint-disable-next-line vue/return-in-computed-property
-    addDisabledClass () {
-      if (!this.fullLink) {
-        return 'disabled'
-      }
-    }
   }
 }
 </script>
