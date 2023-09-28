@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Link;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class LinksController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
         $link = Link::orderby('id', 'desc')->paginate(10);
 
         return response()->json($link);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $lastLink = Link::orderby('id', 'desc')->first();
 
@@ -30,7 +31,7 @@ class LinksController extends Controller
         return response()->json(['message' => 'The link is shortened !']);
     }
 
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         Link::find($id)->delete();
 

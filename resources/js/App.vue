@@ -30,7 +30,7 @@
     </table>
     <p v-else>Ещё нет сокращённых ссылок</p>
 
-    <form class="d-flex justify-content-between mb-3">
+    <form @submit.prevent="" class="d-flex justify-content-between mb-3">
         <input
           class="form-control"
           placeholder="Введите url ссылки"
