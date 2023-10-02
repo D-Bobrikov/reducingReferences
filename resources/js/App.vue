@@ -86,4 +86,5 @@ export default {
     this.getLinks()
   }
 }
+
 </script>
